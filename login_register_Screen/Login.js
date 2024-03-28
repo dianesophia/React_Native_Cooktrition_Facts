@@ -6,6 +6,7 @@ import {  View,
    TouchableOpacity} 
    from 'react-native';
    import React, { useState, useEffect } from 'react';
+   import { auth } from '../firebase'
 
 export default function Login({navigation}) {
   const defaultemail = "abcd"; 
@@ -19,6 +20,18 @@ export default function Login({navigation}) {
     navigation.navigate('Home Screen');
   }
    
+  const handleSignIn = () => {
+    auth 
+     .signInWithEmailAndPassword(email, password)
+     .then(userCredentials => {
+       const user = userCredentials.user;
+       //console.log(user.email);
+       navigation.navigate('Home Screen');
+     })
+     .catch(error => alert(error.message))
+
+    }
+
   return (
     <ImageBackground
       source={require('../assets/backgroundPic.png')}
@@ -47,7 +60,7 @@ export default function Login({navigation}) {
 
          <TouchableOpacity 
            style = {styles.btn}
-           onPress={handleLogin}
+           onPress={handleSignIn}
            >
          <Text style = {styles.btnTitle}>Log in</Text>
 
