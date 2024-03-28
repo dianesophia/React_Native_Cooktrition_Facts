@@ -18,7 +18,7 @@ export default function Start({navigation}){
      <TouchableOpacity 
       style = {styles.btn}
        onPress = {() => navigation.navigate('Home Page')}>
-      <Text>LET'S BEGIN</Text>
+      <Text> LET'S BEGIN </Text>
      </TouchableOpacity>
       
     </SafeAreaView>
