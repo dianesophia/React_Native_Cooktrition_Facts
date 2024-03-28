@@ -1,20 +1,48 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import GetStarted from './screens/getStarted';
+import Login from './login_register_Screen/Login';
+import Register from './login_register_Screen/Register';
+import Goals from './registration_screens/Goals';
+import DietPreferences from './registration_screens/DietPreferences';
+import Allergies from './registration_screens/Allergies';
+import Risk from './registration_screens/Risk';
+import Start from './screens/Start';
+import Home from './screens/Home';
 
-export default function App() {
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+function homeScreen() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Home Page" component={Home} />
+    </Drawer.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="getStarted"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Get Started" component={GetStarted} />
+        <Stack.Screen name="Login Page" component={Login} />
+        <Stack.Screen name="Registration Page" component={Register} />
+        <Stack.Screen name="Goal Page" component={Goals} />
+        <Stack.Screen name="Diet Preferences" component={DietPreferences} />
+        <Stack.Screen name="Allergies Page" component={Allergies} />
+        <Stack.Screen name="Risk Page" component={Risk} />
+        <Stack.Screen name="Home Screen" component={homeScreen} />
+        <Stack.Screen name="Start Page" component={Start} />
+        
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
