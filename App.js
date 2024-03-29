@@ -11,13 +11,15 @@ import Allergies from './registration_screens/Allergies';
 import Risk from './registration_screens/Risk';
 import Start from './screens/Start';
 import Home from './screens/Home';
+import SearchRecipe from './screens/SearchRecipe';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function homeScreen() {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator
+    >
       <Drawer.Screen name="Home Page" component={Home} />
     </Drawer.Navigator>
   );
@@ -27,18 +29,19 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="getStarted"
+        initialRouteName="Get Started"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Get Started" component={GetStarted} />
-        <Stack.Screen name="Login Page" component={Login} />
-        <Stack.Screen name="Registration Page" component={Register} />
-        <Stack.Screen name="Goal Page" component={Goals} />
-        <Stack.Screen name="Diet Preferences" component={DietPreferences} />
-        <Stack.Screen name="Allergies Page" component={Allergies} />
-        <Stack.Screen name="Risk Page" component={Risk} />
-        <Stack.Screen name="Home Screen" component={homeScreen} />
-        <Stack.Screen name="Start Page" component={Start} />
+        <Stack.Screen name = "Get Started" component = {GetStarted} />
+        <Stack.Screen name = "Login Page" component = {Login} />
+        <Stack.Screen name = "Registration Page" component = {Register} />
+        <Stack.Screen name = "Goal Page" component = {Goals} />
+        <Stack.Screen name = "Diet Preferences" component = {DietPreferences} />
+        <Stack.Screen name = "Allergies Page" component = {Allergies} />
+        <Stack.Screen name = "Risk Page" component = {Risk} />
+        <Stack.Screen name = "Home Screen" component = {homeScreen} />
+        <Stack.Screen name = "Start Page" component = {Start} />
+        <Stack.Screen name = "Search Recipe" component = {SearchRecipe}/>
         
       </Stack.Navigator>
     </NavigationContainer>

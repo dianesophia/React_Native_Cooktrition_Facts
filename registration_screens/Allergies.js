@@ -25,7 +25,51 @@ export default function Allergies({navigation}){
 
      <Text style = {styles.title}>Any Allergies</Text>
      
-      
+      <View>
+        <TouchableOpacity>
+          <Text>Egg</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        <TouchableOpacity>
+          <Text>Milk</Text>
+        </TouchableOpacity>
+      </View>
+  
+      <View>
+        <TouchableOpacity>
+          <Text>Nut</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        <TouchableOpacity>
+          <Text>Soy Bean</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View>
+        <TouchableOpacity>
+          <Text>Seafoods</Text>
+        </TouchableOpacity>
+      </View>
+  
+      <View>
+        <TouchableOpacity>
+          <Text>Wheat</Text>
+        </TouchableOpacity>
+      </View>
+
+            {/*Continue button*/}     
+     <View style={styles.continueBtn}>
+        <TouchableOpacity
+          onPress = {() => navigation.navigate('Risk Page')}
+         >
+        <Text style={styles.continueText}>Continue</Text>
+    </TouchableOpacity>
+    </View>
+
     </SafeAreaView>
   );
 }
@@ -51,5 +95,15 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontFamily: 'WorkSans_400Regular',
   }, 
+  continueBtn:{
+    alignItems: 'center',
+    marginTop: 'auto',
+    justifyContent: 'center',
+    marginBottom: 200,
+    borderWidth: 2,
+  },
+  continueText:{
+    color: 'black',
+  }
   
 });

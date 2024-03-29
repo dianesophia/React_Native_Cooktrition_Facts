@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, ImageBackground, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { getDatabase, ref, set } from "firebase/database";
+
 
 export default function Register({ navigation }) {
   const [firstName, setFirstName] = useState('');
@@ -9,6 +11,16 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+
+  function createDb(){
+    set(ref(db, 'users/' + userId), {
+      username:firstName,
+      lastName: lastName,
+      email: email,
+      profile_picture : imageUrl
+    });
+  }
+ 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
       alert("Passwords don't match");
@@ -19,9 +31,8 @@ export default function Register({ navigation }) {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.email);
-        // You can navigate to another screen upon successful registration
-        // For example:
-        // navigation.navigate('Home');
+        navigation.navigate('Goal Page')
+
       })
       .catch(error => alert(error.message));
   }

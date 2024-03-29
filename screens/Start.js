@@ -17,7 +17,7 @@ export default function Start({navigation}){
      <Text style = {styles.title}>All set!</Text>
      <TouchableOpacity 
       style = {styles.btn}
-       onPress = {() => navigation.navigate('Home Page')}>
+       onPress = {() => navigation.navigate('Home Screen')}>
       <Text> LET'S BEGIN </Text>
      </TouchableOpacity>
       

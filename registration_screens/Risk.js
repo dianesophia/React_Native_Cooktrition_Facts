@@ -1,4 +1,9 @@
-import {SafeAreaView,Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {SafeAreaView,
+       Text,
+       StyleSheet,
+       View, 
+       TouchableOpacity} from 'react-native';
+
 import { Ionicons, Foundation } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 
@@ -26,7 +31,53 @@ export default function Risk({navigation}){
      <Text style = {styles.title}>Are you at risk of any 
 of the following</Text>
      
+     <View>
+      <TouchableOpacity>
+        <Text>Diabetes</Text>
+      </TouchableOpacity>
+     </View>
       
+     <View>
+      <TouchableOpacity>
+        <Text>Hypertension</Text>
+      </TouchableOpacity>
+     </View>
+
+     <View>
+      <TouchableOpacity>
+        <Text>Osteoarthritis</Text>
+      </TouchableOpacity>
+     </View>
+
+     <View>
+      <TouchableOpacity>
+        <Text>Kidney Disease</Text>
+      </TouchableOpacity>
+     </View>
+      
+     <View>
+      <TouchableOpacity>
+        <Text>Liver Disease</Text>
+      </TouchableOpacity>
+     </View>
+
+     <View>
+      <TouchableOpacity>
+        <Text>Heart Disease</Text>
+      </TouchableOpacity>
+     </View>
+
+      {/*Continue button*/}     
+     <View style={styles.continueBtn}>
+  <TouchableOpacity
+      onPress = {() => navigation.navigate('Start Page')}
+  >
+    <Text style={styles.continueText}>Continue</Text>
+  </TouchableOpacity>
+</View>
+
+
+
     </SafeAreaView>
   );
 }
@@ -52,5 +103,15 @@ const styles = StyleSheet.create({
     marginTop: 40,
     fontFamily: 'WorkSans_400Regular',
   }, 
+  continueBtn:{
+    alignItems: 'center',
+    marginTop: 'auto',
+    justifyContent: 'center',
+    marginBottom: 200,
+    borderWidth: 2,
+  },
+  continueText:{
+    color: 'black',
+  }
   
 });

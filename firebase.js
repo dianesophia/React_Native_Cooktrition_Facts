@@ -6,6 +6,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore"
 import "firebase/compat/analytics"; 
+import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -31,4 +32,7 @@ const analytics = firebase.analytics();
 
 const auth = firebase.auth();
 
-export { auth };
+const db = getDatabase(app)
+
+
+export { auth, db };
