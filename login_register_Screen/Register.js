@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ImageBackground, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { auth, db } from '../firebase';
-import { getDatabase, ref, set } from "firebase/database";
 
 
 export default function Register({ navigation }) {
@@ -11,16 +10,6 @@ export default function Register({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-
-  function createDb(){
-    set(ref(db, 'users/' + userId), {
-      username:firstName,
-      lastName: lastName,
-      email: email,
-      profile_picture : imageUrl
-    });
-  }
- 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
       alert("Passwords don't match");
@@ -31,11 +20,13 @@ export default function Register({ navigation }) {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.email);
-        navigation.navigate('Goal Page')
-
+        navigation.navigate('Goal Page');
       })
       .catch(error => alert(error.message));
   }
+   
+  
+
 
   return (
     <ImageBackground
@@ -44,8 +35,6 @@ export default function Register({ navigation }) {
       resizeMode="cover">
 
       <Text style={styles.title}>Cooktrition Facts</Text>
-      <Text>Cook Smart, Eat Right, Anytime, Anywhere!</Text>
-
       <Text style={styles.loginText}>Register</Text>
 
       <TextInput
@@ -103,6 +92,7 @@ export default function Register({ navigation }) {
     </ImageBackground>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

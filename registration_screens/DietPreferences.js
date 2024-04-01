@@ -1,16 +1,23 @@
-import {SafeAreaView,Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {SafeAreaView,Text, StyleSheet, View, TouchableOpacity, FlatList} from 'react-native';
 import { Ionicons, Foundation } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
+import React, {useState} from 'react';
+
 
 export default function DietPreferences({navigation}){
   
   const [fontsLoaded] = useFonts({
-  WorkSans_400Regular,
-   });
+    WorkSans_400Regular,
+  });
 
-    if (!fontsLoaded) {
-      return null; 
-    }
+  const [diet, seDiet] = useState([
+    {dietTitle:'I eat everything', dietDefinition: 'No specific dieatary preferences' },
+    {dietTitle:'Pescatarian', dietDefinition: 'Plant-based diet, including seafood' },
+    {dietTitle:'Vegetarian', dietDefinition: 'No meat' },
+    {dietTitle:'Vegan', dietDefinition: 'Plant-based diet' },
+
+  ])
+  
 
   return(
     <SafeAreaView style = {styles.container}>
@@ -26,7 +33,20 @@ export default function DietPreferences({navigation}){
      <Text style = {styles.title}>What's your diet type?</Text>
      
       <View style = {styles.contents}>
-        <TouchableOpacity 
+        <FlatList
+           data={diet}
+           keyExtractor={(item, index) => index.toString()}
+           renderItem={({item}) => (
+            <TouchableOpacity
+            onPress={() => navigation.navigate('User Information', item)}
+          >
+            <Text style={styles.boxTitle}>{item.dietTitle}</Text>
+            <Text>{item.dietDefinition}</Text>
+          </TouchableOpacity>
+           )}
+        />
+        
+       {/* <TouchableOpacity 
           style = {styles.box}>
            <Text style = {styles.boxTitle}>I eat everything</Text>
             <Text>No specific dieatary preferences</Text>
@@ -48,7 +68,8 @@ export default function DietPreferences({navigation}){
           style = {styles.box}>
            <Text style = {styles.boxTitle}>Vegan</Text>
             <Text>Plant-based diet</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
+
       </View>
     </SafeAreaView>
   );

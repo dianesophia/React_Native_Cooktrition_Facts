@@ -1,16 +1,25 @@
-import {SafeAreaView,Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {SafeAreaView,Text, StyleSheet, View, TouchableOpacity, FlatList} from 'react-native';
 import { Ionicons, Foundation } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
+import React, {useState} from 'react';
 
 export default function Goals({navigation}){
-  
   const [fontsLoaded] = useFonts({
-  WorkSans_400Regular,
-   });
+    WorkSans_400Regular,
+  });
+  
 
-    if (!fontsLoaded) {
-      return null; 
-    }
+   function handleGoalData(){
+
+   }
+
+   const [goal, setGoal] = useState([
+    {goalTitle: 'Get Inspiration', goalDefinition: 'Challenge your taste buds'},
+    {goalTitle: 'Eat healthy', goalDefinition: 'Have balanced diet and stay lean'},
+    {goalTitle: 'Loose weight', goalDefinition: 'Get lean without struggle'},
+    {goalTitle: 'Build muscles', goalDefinition: 'Stay active and get stronger'},
+
+   ]) 
 
   return(
     <SafeAreaView style = {styles.container}>
@@ -24,33 +33,27 @@ export default function Goals({navigation}){
       </TouchableOpacity>
 
      <Text style = {styles.title}>What's your diet goal?</Text>
-     
-      <View style = {styles.contents}>
-        <TouchableOpacity 
-          style = {styles.box}>
-           <Text style = {styles.boxTitle}>Get inspiration</Text>
-            <Text>Challenge your taste buds</Text>
-        </TouchableOpacity>
 
-         <TouchableOpacity 
-          style = {styles.box}>
-           <Text style = {styles.boxTitle}>Eat healthy</Text>
-            <Text>Have balanced diet and stay lean</Text>
-        </TouchableOpacity>
+     <View style = {styles.contents}>
+     <FlatList 
+        data={goal}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('User Information', item)}
+          >
+            <Text style={styles.boxTitle}>{item.goalTitle}</Text>
+            <Text>{item.definition}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    </View>
 
-         <TouchableOpacity 
-          style = {styles.box}>
-           <Text style = {styles.boxTitle}>Loose weight</Text>
-            <Text>Get lean without struggle</Text>
-        </TouchableOpacity>
-
-         <TouchableOpacity 
-          style = {styles.box}>
-           <Text style = {styles.boxTitle}>Build muscles</Text>
-            <Text>Stay active and get stronger</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
+
+
+
+
   );
 }
 

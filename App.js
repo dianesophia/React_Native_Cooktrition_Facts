@@ -13,6 +13,8 @@ import Start from './screens/Start';
 import Home from './screens/Home';
 import SearchRecipe from './screens/SearchRecipe';
 
+import userInformation from './userInformation';
+
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
@@ -21,6 +23,7 @@ function homeScreen() {
     <Drawer.Navigator
     >
       <Drawer.Screen name="Home Page" component={Home} />
+      <Drawer.Screen name="Log out" component={Login} />
     </Drawer.Navigator>
   );
 }
@@ -29,7 +32,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Get Started"
+        initialRouteName="Diet Preferences"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name = "Get Started" component = {GetStarted} />
@@ -42,6 +45,7 @@ function App() {
         <Stack.Screen name = "Home Screen" component = {homeScreen} />
         <Stack.Screen name = "Start Page" component = {Start} />
         <Stack.Screen name = "Search Recipe" component = {SearchRecipe}/>
+        <Stack.Screen name = "User Imformation" component = {userInformation}/>
         
       </Stack.Navigator>
     </NavigationContainer>
