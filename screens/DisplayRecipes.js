@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import axios from 'axios';
 
-export default function DisplayRecipes({ route }) {
+export default function DisplayRecipes({ route, navigation }) {
   const [recipes, setRecipes] = useState([]);
   const { ingredientsQuery } = route.params;
 
@@ -19,15 +19,29 @@ export default function DisplayRecipes({ route }) {
     fetchRecipes();
   }, [ingredientsQuery]);
 
+
+  const navigateToRecipe = (recipe) =>{
+    navigation.navigate('Recipe', {recipe});
+  };
+
+  const renderItem = ({item}) => {
+    return(
+    <TouchableOpacity onPress={() => navigateToRecipe(item.recipe)}>
+        <View>
+        <Text>{item.recipe.label}</Text>
+    <Image source={{ uri: item.recipe.image }} style={styles.recipeImage} />
+        </View>
+    </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.container}>
-    {recipes.map((recipe) => (
-  <View key={recipe.recipe.label}>
-    <Text>{recipe.recipe.label}</Text>
-    <Image source={{ uri: recipe.recipe.image }} style={styles.recipeImage} />
-  </View>
-))}
-
+        <FlatList
+        data={recipes}
+        keyExtractor={(item,index) => index.toString()}
+        renderItem={renderItem}
+        />
     </View>
   );
 }
