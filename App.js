@@ -12,6 +12,8 @@ import Risk from './registration_screens/Risk';
 import Start from './screens/Start';
 import Home from './screens/Home';
 import SearchRecipe from './screens/SearchRecipe';
+import Recipe from './screens/Recipe'
+import InputIngredients from './screens/InputIngredients';
 
 import userInformation from './userInformation';
 
@@ -32,7 +34,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Diet Preferences"
+        initialRouteName="Home Screen"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name = "Get Started" component = {GetStarted} />
@@ -46,7 +48,9 @@ function App() {
         <Stack.Screen name = "Start Page" component = {Start} />
         <Stack.Screen name = "Search Recipe" component = {SearchRecipe}/>
         <Stack.Screen name = "User Imformation" component = {userInformation}/>
-        
+        <Stack.Screen name = "Recipe" component={Recipe}/>
+        <Stack.Screen name = "Input Ingredients" component={InputIngredients}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );
