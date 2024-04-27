@@ -32,7 +32,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Diet Preferences"
+        initialRouteName="Start Page"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name = "Get Started" component = {GetStarted} />
