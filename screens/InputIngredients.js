@@ -7,19 +7,16 @@ export default function InputIngredients({ navigation }) {
   const handleAddInput = () => {
     setInputs([...inputs, '']);
   };
-  const getRecipes = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/recipes/${query}`);
-      setRecipes(response.data);
-    } catch (error) {
-      console.error('Error fetching recipes:', error);
-    }
+
+  const handleSearch = () => {
+    const ingredientsQuery = inputs.join(',');
+    navigation.navigate('Display Recipes', { ingredientsQuery });
   };
 
   return (
     <View>
       <TouchableOpacity onPress={handleAddInput}>
-        <Text>+ADD</Text>
+        <Text>+ ADD</Text>
       </TouchableOpacity>
       {inputs.map((value, index) => (
         <TextInput
@@ -35,7 +32,7 @@ export default function InputIngredients({ navigation }) {
         />
       ))}
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSearch}>
         <Text>Search Recipe</Text>
       </TouchableOpacity>
     </View>
