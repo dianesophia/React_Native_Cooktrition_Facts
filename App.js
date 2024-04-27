@@ -34,7 +34,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home Screen"
+        initialRouteName="Login Page"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name = "Get Started" component = {GetStarted} />
