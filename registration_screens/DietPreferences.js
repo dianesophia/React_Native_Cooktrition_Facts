@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 import { Card } from 'react-native-paper';
 import { ListAccordion } from 'react-native-paper';
-import userInformation from '../userInformation';
 
 
 export default function DietPreferences({ navigation}) {
@@ -35,7 +34,7 @@ export default function DietPreferences({ navigation}) {
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={styles.skip}
-        onPress={() => navigation.navigate('Allergies Page')}>
+        onPress={() => navigation.navigate('Allegies Input')}>
         <Text style={styles.skipWord}>Skip  </Text>
         <Ionicons name="arrow-forward" size={25} color="black" />
       </TouchableOpacity>
