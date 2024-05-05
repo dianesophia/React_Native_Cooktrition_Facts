@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
+import { connectStorageEmulator } from 'firebase/storage';
 
 export default function Risk({ navigation, route }) {
   const [fontsLoaded] = useFonts({
@@ -33,7 +34,7 @@ export default function Risk({ navigation, route }) {
     console.log(selectedDiet);
     console.log(allergies); 
     console.log(selectedRisk);
-    navigation.navigate('Start Page', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies });
+    navigation.navigate('Start Page', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies});
   };
 
   const handleSkip = () => {

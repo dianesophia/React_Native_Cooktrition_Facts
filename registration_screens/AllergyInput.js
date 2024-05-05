@@ -10,7 +10,9 @@ export default function AllergyInput({ navigation, route }) {
   const handleContinue = () => {
     console.log(allergies); 
     console.log(selectedDiet);
-    navigation.navigate('Risk Page', { allergies: allergies.split(','), selectedDiet: selectedDiet });
+    console.log(firstName);
+    console.log("Allegies");
+    navigation.navigate('Risk Page', { allergies: allergies.split(','), selectedDiet: selectedDiet});
   };
   
   

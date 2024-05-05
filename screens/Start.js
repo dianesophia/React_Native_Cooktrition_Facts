@@ -20,7 +20,7 @@ export default function Start({ navigation, route  }) {
     console.log(selectedRisk);
     console.log("start Page");
    
-    navigation.navigate('Home Screen', { selectedDiet: selectedDiet, allergies: allergies, selectedRisk: selectedRisk });
+    navigation.navigate('Home', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies });
 
   }
 

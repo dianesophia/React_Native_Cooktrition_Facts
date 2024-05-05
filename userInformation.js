@@ -61,12 +61,14 @@ export default function userInformation({ route }) {
   // Your JSX for rendering the user information component
 }*/
 }
-
+{/*
 import React, { useEffect, useState } from "react";
 import { db } from "./firebase";
+import { View, Text, Button, TouchableOpacity , StyleSheet} from 'react-native';  
 
-export default function userInformation({ route }) {
-  const { selectedDiet, selectedAllergens, additionalAllergens, selectedRisk, firstName, lastName, email } = route.params;
+export default function userInformation({ navigation, route }) {
+  
+  const {firstName, lastName, email, selectedDiet, allergies, selectedRisk} = route.params;
 
   useEffect(() => {
     db.collection('userInformation')
@@ -87,5 +89,36 @@ export default function userInformation({ route }) {
   }, [selectedDiet, selectedAllergens, additionalAllergens, selectedRisk, firstName, lastName, email]);
 
   // Your JSX for rendering the user information component
-}
 
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>User Information</Text>
+      <Text>First Name: {firstName}</Text>
+      <Text>Last Name: {lastName}</Text>
+      <Text>Email: {email}</Text>
+      <Text>Selected Diet: {selectedDiet}</Text>
+      <Text>Allergies: {allergies.join(', ')}</Text>
+      <Text>Selected Risk: {selectedRisk}</Text>
+    </View>
+  );
+
+}*/
+}
+import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function UserInformation({ firstName, lastName, email, navigation , route}) {
+  const {selectedDiet, allergies, selectedRisk} = route.params || {};
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>User Information</Text>
+      <Text>First Name: {firstName}</Text>
+      <Text>Last Name: {lastName}</Text>
+      <Text>Email: {email}</Text> 
+       <Text>Diet preferences: {selectedDiet}</Text>
+       <Text>Allergies: {allergies}</Text>
+       <Text>Risks: {selectedRisk}</Text>
+    </View>
+  );
+}

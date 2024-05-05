@@ -66,7 +66,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Diet Preferences" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Risk Page" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Get Started" component={GetStarted} />
         <Stack.Screen name="Login Page" component={Login} />
         <Stack.Screen name="Registration Page" component={Register} />
@@ -75,6 +75,7 @@ function App() {
         <Stack.Screen name="Allergies Page" component={Allergies} />
         <Stack.Screen name="Risk Page" component={Risk} />
         <Stack.Screen name="Home Screen" component={HomeScreen} />
+
         <Stack.Screen name="Start Page" component={Start} />
         <Stack.Screen name="Search Recipe" component={SearchRecipe} />
         <Stack.Screen name="User Information" component={userInformation} />
@@ -84,6 +85,7 @@ function App() {
         <Stack.Screen name="userInformation" component={userInformation} />
 
         <Stack.Screen name="Allegies Input" component={AllergyInput} />
+        <Stack.Screen name="Home" component={Home} />
 
       </Stack.Navigator>
     </NavigationContainer>

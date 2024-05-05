@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, ImageBackground, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { auth, db } from '../firebase';
+import { auth } from '../firebase';
+import UserInformation from '../userInformation';
 
-
-export default function Register({ navigation, promptAsync }) {
+export default function Register({ navigation }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [registered, setRegistered] = useState(false); // State to track registration status
 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
@@ -20,17 +21,22 @@ export default function Register({ navigation, promptAsync }) {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.email);
-        navigation.navigate('Diet Preferences');
-  
-        navigation.navigate('userInformation', {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-        });
+        setRegistered(true); // Update registration status
       })
       .catch(error => alert(error.message));
   }
-  
+
+  // Conditional rendering of UserInformation component if registered
+  if (registered) {
+    return (
+      <UserInformation 
+        firstName={firstName} 
+        lastName={lastName} 
+        email={email} 
+        navigation={navigation} 
+      />
+    );
+  }
 
   return (
     <ImageBackground
@@ -93,15 +99,14 @@ export default function Register({ navigation, promptAsync }) {
           Login Now
         </Text>
 
-        <TouchableOpacity onPress={() => promptAsync()}>
+       { /*<TouchableOpacity onPress={() => promptAsync()}>
           <Text>Sign up with google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
 
       </View>
     </ImageBackground>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -111,7 +116,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-
   btn: {
     backgroundColor: 'black',
     marginTop: 40,
@@ -125,7 +129,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     marginTop: 15,
-
   },
   textInputs: {
     borderWidth: 1,
