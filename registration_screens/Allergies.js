@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 
@@ -9,6 +9,7 @@ export default function Allergies({ navigation }) {
   });
 
   const [selectedAllergens, setSelectedAllergens] = useState([]);
+  const [additionalAllergens, setAdditionalAllergens] = useState([]); // State to keep track of additional allergies
 
   const toggleAllergen = (allergen) => {
     if (selectedAllergens.includes(allergen)) {
@@ -22,9 +23,21 @@ export default function Allergies({ navigation }) {
     return selectedAllergens.includes(allergen);
   };
 
+  const handleAddInput = () => {
+    setAdditionalAllergens([...additionalAllergens, '']);
+  };
+
   if (!fontsLoaded) {
     return null;
   }
+
+  const navigateToUserInformation = () => {
+    navigation.navigate('userInformation', {
+      selectedAllergens: selectedAllergens,
+      additionalAllergens: additionalAllergens,
+    });
+  };
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,10 +78,10 @@ export default function Allergies({ navigation }) {
             </View>
             <Text style={styles.cardText}>Nut</Text>
           </TouchableOpacity>
-          </View>
+        </View>
 
         <View style={styles.cardRow}>
-        <TouchableOpacity 
+          <TouchableOpacity 
             style={[styles.card, isAllergenSelected('Soybean') && styles.selectedCard]}
             onPress={() => toggleAllergen('Soybean')}>
             <View style={[styles.imageContainer, isAllergenSelected('Soybean') && styles.selectedImageContainer]}>
@@ -96,11 +109,27 @@ export default function Allergies({ navigation }) {
           </TouchableOpacity>
         </View>
 
+        {/* Additional allergies input fields */}
+        {additionalAllergens.map((value, index) => (
+          <TextInput
+            key={index}
+            style={styles.input}
+            placeholder={`Additional Allergy ${index + 1}`}
+            value={value}
+            onChangeText={(text) => {
+              const newAdditionalAllergens = [...additionalAllergens];
+              newAdditionalAllergens[index] = text;
+              setAdditionalAllergens(newAdditionalAllergens);
+            }}
+          />
+        ))}
 
-        {/* Add more rows of allergen options */}
+        <TouchableOpacity onPress={handleAddInput}>
+          <Text>+ ADD</Text>
+        </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.continueBtn} onPress={() => navigation.navigate('Risk Page')}>
+      <TouchableOpacity style={styles.continueBtn} onPress={() => {navigateToUserInformation, navigation.navigate('Risk Page')}}>
         <Text style={styles.continueText}>Continue</Text>
       </TouchableOpacity>
     </SafeAreaView>
@@ -185,5 +214,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#F1C013',
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginTop: 20,
+    paddingHorizontal: 10,
   },
 });

@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 
+
 app.get('/recipes/:query', async (req, res) => {
     try {
         const response = await axios.get(

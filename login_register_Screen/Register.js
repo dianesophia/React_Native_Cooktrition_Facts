@@ -3,7 +3,7 @@ import { View, ImageBackground, Text, StyleSheet, TextInput, TouchableOpacity } 
 import { auth, db } from '../firebase';
 
 
-export default function Register({ navigation }) {
+export default function Register({ navigation, promptAsync }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -15,18 +15,22 @@ export default function Register({ navigation }) {
       alert("Passwords don't match");
       return;
     }
-
+  
     auth.createUserWithEmailAndPassword(email, password)
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.email);
-        navigation.navigate('Goal Page');
+        navigation.navigate('Diet Preferences');
+  
+        navigation.navigate('userInformation', {
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+        });
       })
       .catch(error => alert(error.message));
   }
-   
   
-
 
   return (
     <ImageBackground
@@ -88,6 +92,11 @@ export default function Register({ navigation }) {
           onPress={() => navigation.navigate('Login Page')}>
           Login Now
         </Text>
+
+        <TouchableOpacity onPress={() => promptAsync()}>
+          <Text>Sign up with google</Text>
+        </TouchableOpacity>
+
       </View>
     </ImageBackground>
   );

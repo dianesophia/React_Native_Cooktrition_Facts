@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sophiad.cooktrition_facts"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "25d80814-30f9-48df-9c44-2b2200743e5c"
+      }
+    },
+    "scheme": "cooktrition_facts"
   }
 }

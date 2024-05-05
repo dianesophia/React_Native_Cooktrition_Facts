@@ -6,6 +6,8 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/auth";
 import "firebase/compat/firestore"
 import "firebase/compat/analytics"; 
+
+import { getAuth } from "firebase/auth";
 //import * as firebase from 'firebase';
 
 // Your web app's Firebase configuration
@@ -36,3 +38,5 @@ const db = firebase.firestore();
 
 
 export { auth, db };
+//Android - 741806464382-1astf3i0cn341ok1f1u718vjrp53iuvs.apps.googleusercontent.com
+//Web ID - 741806464382-266013294dur6bc27vkvengbafj6cclj.apps.googleusercontent.com

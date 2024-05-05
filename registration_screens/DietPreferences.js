@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 import { Card } from 'react-native-paper';
 import { ListAccordion } from 'react-native-paper';
+import userInformation from '../userInformation';
 
 
 export default function DietPreferences({ navigation }) {
@@ -19,7 +20,7 @@ export default function DietPreferences({ navigation }) {
   ]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('Allergies Page')}>
+    <TouchableOpacity onPress={() => navigation.navigate('Allegies Input', { selectedDiet: item.dietTitle })}>
       <Card style={styles.card}>
         <Card.Content>
           <Text style={styles.cardTitle}>{item.dietTitle}</Text>
@@ -28,6 +29,7 @@ export default function DietPreferences({ navigation }) {
       </Card>
     </TouchableOpacity>
   );
+  
 
   return (
     <SafeAreaView style={styles.container}>

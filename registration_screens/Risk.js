@@ -3,12 +3,15 @@ import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Image } from 'r
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 
-export default function Risk({ navigation }) {
+export default function Risk({ navigation, route }) {
   const [fontsLoaded] = useFonts({
     WorkSans_400Regular,
   });
 
+  const {selectedDiet, allergies} = route.params;
   const [selectedRisk, setSelectedRisk] = useState([]);
+
+    
 
   const toggleRisk = (risk) => {
     if (selectedRisk.includes(risk)) {
@@ -26,11 +29,25 @@ export default function Risk({ navigation }) {
     return null;
   }
 
+  const handleContinue = () => {
+    console.log(selectedDiet);
+    console.log(allergies); 
+    console.log(selectedRisk);
+    navigation.navigate('Start Page', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies });
+  };
+
+  const handleSkip = () => {
+    console.log(selectedDiet);
+    console.log(allergies); 
+    console.log(selectedRisk);
+    navigation.navigate('Start Page', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies });
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={styles.skip}
-        onPress={() => navigation.navigate('Start Page')}>
+        onPress={handleSkip}>
         <Text style={styles.skipWord}>Skip  </Text>
         <Ionicons name="arrow-forward" size={25} color="black" />
       </TouchableOpacity>
@@ -82,11 +99,11 @@ export default function Risk({ navigation }) {
 
       </View>
 
-      {/* Continue button */}
       <View style={styles.continueBtn}>
-        <TouchableOpacity onPress={() => navigation.navigate('Start Page')}>
-          <Text style={styles.continueText}>Continue</Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={handleContinue}>
+  <Text style={styles.continueText}>Continue</Text>
+</TouchableOpacity>
+
       </View>
     </SafeAreaView>
   );

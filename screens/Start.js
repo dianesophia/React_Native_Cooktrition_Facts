@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
 
-export default function Start({ navigation }) {
+
+export default function Start({ navigation, route  }) {
   const [fontsLoaded] = useFonts({
     WorkSans_400Regular,
   });
 
   if (!fontsLoaded) {
     return null;
+  }
+
+  const {selectedDiet, allergies, selectedRisk} = route.params;
+
+  const handleContinue = () => {
+    console.log(selectedDiet);
+    console.log(allergies); 
+    console.log(selectedRisk);
+    console.log("start Page");
+   
+    navigation.navigate('Home Screen', { selectedDiet: selectedDiet, allergies: allergies, selectedRisk: selectedRisk });
+
   }
 
   return (
@@ -32,11 +45,12 @@ export default function Start({ navigation }) {
           <Image style={styles.image} source={require('../assets/ls8.png')} />
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.beginBtn}
-        onPress={() => navigation.navigate('Home Screen')}>
-        <Text style={styles.beginText}>LET'S BEGIN</Text>
-      </TouchableOpacity>
+  <TouchableOpacity
+  style={styles.beginBtn}
+  onPress={handleContinue}> 
+  <Text style={styles.beginText}>LET'S BEGIN</Text>
+</TouchableOpacity>
+
     </SafeAreaView>
   );
 }
