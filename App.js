@@ -66,7 +66,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Diet Preferences" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Input Ingredients" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Get Started" component={GetStarted} />
         <Stack.Screen name="Login Page" component={Login} />
         <Stack.Screen name="Registration Page" component={Register} />

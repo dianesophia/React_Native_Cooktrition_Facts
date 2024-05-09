@@ -21,6 +21,7 @@ export default function Risk({ navigation, route }) {
       setSelectedRisk([...selectedRisk, risk]);
     }
   };
+  
 
   const isRiskSelected = (risk) => {
     return selectedRisk.includes(risk);
