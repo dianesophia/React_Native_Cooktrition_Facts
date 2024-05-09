@@ -43,7 +43,9 @@ function HomeScreen() {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
     )}>
-      <Drawer.Screen name="Home Page" component={Home} />
+      <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Favorites" component={Login} />
+      <Drawer.Screen name="History" component={Login} />
       <Drawer.Screen name="Log out" component={Login} />
     </Drawer.Navigator>
   );
@@ -66,7 +68,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Diet Preferences" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Home Screen" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Get Started" component={GetStarted} />
         <Stack.Screen name="Login Page" component={Login} />
         <Stack.Screen name="Registration Page" component={Register} />
