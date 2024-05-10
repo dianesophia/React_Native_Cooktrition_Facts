@@ -3,13 +3,13 @@ import { View, ImageBackground, Text, StyleSheet, TextInput, TouchableOpacity } 
 import { auth } from '../firebase';
 import UserInformation from '../userInformation';
 
-export default function Register({ navigation }) {
+export default function Register({ navigation, route }) {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [registered, setRegistered] = useState(false); // State to track registration status
+  const [registered, setRegistered] = useState(false); 
 
   const handleSignUp = () => {
     if (password !== confirmPassword) {
@@ -21,20 +21,21 @@ export default function Register({ navigation }) {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.email);
-        setRegistered(true); // Update registration status
+        setRegistered(true); 
       })
       .catch(error => alert(error.message));
   }
 
-  // Conditional rendering of UserInformation component if registered
   if (registered) {
+    navigation.navigate("Diet Preferences");
     return (
       <UserInformation 
-        firstName={firstName} 
-        lastName={lastName} 
-        email={email} 
-        navigation={navigation} 
-      />
+  firstName={firstName} 
+  lastName={lastName} 
+  email={email} 
+  navigation={navigation}
+  route={route} // Pass the route object
+/>
     );
   }
 

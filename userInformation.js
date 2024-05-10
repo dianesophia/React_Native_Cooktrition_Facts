@@ -104,11 +104,13 @@ export default function userInformation({ navigation, route }) {
 
 }*/
 }
+
+
 import React from 'react';
 import { View, Text } from 'react-native';
 
-export default function UserInformation({ firstName, lastName, email, navigation , route}) {
-  const {selectedDiet, allergies, selectedRisk} = route.params || {};
+export default function UserInformation({ firstName, lastName, email, navigation, route }) {
+  const { selectedDiet, allergies, selectedRisk } = route.params ?? {};
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -116,9 +118,10 @@ export default function UserInformation({ firstName, lastName, email, navigation
       <Text>First Name: {firstName}</Text>
       <Text>Last Name: {lastName}</Text>
       <Text>Email: {email}</Text> 
-       <Text>Diet preferences: {selectedDiet}</Text>
-       <Text>Allergies: {allergies}</Text>
-       <Text>Risks: {selectedRisk}</Text>
+      <Text>Diet preferences: {selectedDiet}</Text>
+      <Text>Allergies: {allergies}</Text>
+      <Text>Risks: {selectedRisk}</Text>
     </View>
   );
 }
+

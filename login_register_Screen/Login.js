@@ -26,7 +26,7 @@ export default function Login({navigation}) {
      .then(userCredentials => {
        const user = userCredentials.user;
        //console.log(user.email);
-       navigation.navigate('Home Screen');
+       navigation.navigate('Home');
      })
      .catch(error => alert(error.message))
 
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
  
  btn: {
-    backgroundColor : 'white',
+    backgroundColor : 'black',
     marginTop: 40,
     marginBottom : 30,
     width:330,
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     textAlign : 'center',
     alignItems : 'center',
     marginTop: 15,
+
 
   },
   textInputs: {
