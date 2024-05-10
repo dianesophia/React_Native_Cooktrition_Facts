@@ -43,7 +43,9 @@ function HomeScreen() {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
     )}>
-      <Drawer.Screen name="Home Page" component={Home} />
+      <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Favorites" component={Login} />
+      <Drawer.Screen name="History" component={Login} />
       <Drawer.Screen name="Log out" component={Login} />
     </Drawer.Navigator>
   );
