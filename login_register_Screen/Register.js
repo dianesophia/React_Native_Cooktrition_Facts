@@ -34,7 +34,7 @@ export default function Register({ navigation, route }) {
   lastName={lastName} 
   email={email} 
   navigation={navigation}
-  route={route} // Pass the route object
+  route={route} 
 />
     );
   }

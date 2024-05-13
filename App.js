@@ -68,7 +68,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home Screen" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Registration" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Get Started" component={GetStarted} />
         <Stack.Screen name="Login Page" component={Login} />
         <Stack.Screen name="Registration Page" component={Register} />

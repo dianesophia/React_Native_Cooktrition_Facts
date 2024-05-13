@@ -105,7 +105,6 @@ export default function userInformation({ navigation, route }) {
 }*/
 }
 
-
 import React from 'react';
 import { View, Text } from 'react-native';
 
@@ -125,3 +124,54 @@ export default function UserInformation({ firstName, lastName, email, navigation
   );
 }
 
+
+
+
+{/*
+import React, { useEffect } from 'react';
+import { View, Text } from 'react-native';
+import { db } from './firebase';
+
+export default function UserInformation({ firstName, lastName, email, navigation, route }) {
+  const { selectedDiet, allergies, selectedRisk } = route.params ?? {};
+
+  useEffect(() => {
+    // Function to save user information to Firestore
+    const saveUserInfoToFirestore = async () => {
+      try {
+        // Access Firestore collection 'UserInformation'
+        const userRef = db.collection('UserInformation');
+
+        // Add document to the collection with user information
+        await userRef.add({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          selectedDiet: selectedDiet,
+          allergies: allergies,
+          selectedRisk: selectedRisk
+        });
+
+        console.log('User information saved to Firestore successfully!');
+      } catch (error) {
+        console.error('Error saving user information to Firestore: ', error);
+      }
+    };
+
+    // Call the function to save user information when the component mounts
+    saveUserInfoToFirestore();
+  }, []); // Run this effect only once when the component mounts
+
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>User Information</Text>
+      <Text>First Name: {firstName}</Text>
+      <Text>Last Name: {lastName}</Text>
+      <Text>Email: {email}</Text> 
+      <Text>Selected Diet: {selectedDiet}</Text>
+      <Text>Allergies: {allergies.join(', ')}</Text>
+      <Text>Selected Risk: {selectedRisk}</Text>
+    </View>
+  );
+}
+*/}
