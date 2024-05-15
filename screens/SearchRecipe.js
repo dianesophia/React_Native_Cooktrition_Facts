@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/MaterialIcons'; 
 
 export default function SearchRecipe({ navigation, route }) {
   const [recipes, setRecipes] = useState([]);
@@ -36,12 +37,17 @@ export default function SearchRecipe({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder='Search Recipe / Ingredient'
-        value={search}
-        onChangeText={handleSearch} 
-      />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Icon name="arrow-back" size={30} color="#333" />
+        </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder='Search Recipe / Ingredient'
+          value={search}
+          onChangeText={handleSearch} 
+        />
+      </View>
 
       <FlatList
         data={recipes}
@@ -67,13 +73,22 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#FFEFBF',
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   input: {
     height: 40,
+    flex: 1,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 15, 
+    marginLeft: 10,
+    marginBottom: 15,
+  },
+  backButton: {
+    marginRight: 10,
   },
   recipeItem: {
     marginBottom: 20,
@@ -93,6 +108,5 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: 'cover',
     marginRight: 20,
-
   },
 });

@@ -18,6 +18,7 @@ import Recipe from './screens/Recipe';
 import InputIngredients from './screens/InputIngredients';
 import DisplayRecipes from './screens/DisplayRecipes';
 import AllergyInput from './registration_screens/AllergyInput';
+import RecommendedRecipes from './screens/RecommendedRecipes';
 
 import userInformation from './userInformation';
 import * as Google from 'expo-auth-session/providers/google';
@@ -68,7 +69,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Registration" screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName="Diet Preferences" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Get Started" component={GetStarted} />
         <Stack.Screen name="Login Page" component={Login} />
         <Stack.Screen name="Registration Page" component={Register} />
@@ -88,6 +89,7 @@ function App() {
 
         <Stack.Screen name="Allegies Input" component={AllergyInput} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="Recommended Recipes" component={RecommendedRecipes} />
 
       </Stack.Navigator>
     </NavigationContainer>

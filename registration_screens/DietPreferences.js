@@ -19,7 +19,7 @@ export default function DietPreferences({ navigation}) {
   ]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('Allegies Input', {selectedDiet: item.dietTitle })}>
+    <TouchableOpacity onPress={() => navigation.navigate('Allegies Input', {selectedDiet: item.dietTitle})}>
       <Card style={styles.card}>
         <Card.Content>
           <Text style={styles.cardTitle}>{item.dietTitle}</Text>
@@ -34,7 +34,7 @@ export default function DietPreferences({ navigation}) {
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={styles.skip}
-        onPress={() => navigation.navigate('Allegies Input')}>
+        onPress={() => navigation.navigate('Allegies Input',{selectedDiet: 'null'})}>
         <Text style={styles.skipWord}>Skip  </Text>
         <Ionicons name="arrow-forward" size={25} color="black" />
       </TouchableOpacity>

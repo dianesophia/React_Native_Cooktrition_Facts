@@ -8,8 +8,11 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors());
 
+app.use(cors({
+    origin: 'http://localhost:8081'
+  }));
+  
 
 app.get('/recipes/:query', async (req, res) => {
     try {

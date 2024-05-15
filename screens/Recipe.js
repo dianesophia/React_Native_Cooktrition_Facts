@@ -39,22 +39,37 @@ export default function Recipe({ route }) {
           >
             <View style={styles.modalView}>
               <Text style={styles.modalTitle}>Nutrition Facts:</Text>
-              <Text style={styles.facts}>Calories: {recipe.calories.toFixed(2)}</Text>
-              <Text style={styles.facts}>Fat: {recipe.totalNutrients.FAT.quantity.toFixed(2)}g</Text>
-              <Text style={styles.facts}>Carbs: {recipe.totalNutrients.CHOCDF.quantity.toFixed(2)}g</Text>
-              <Text style={styles.facts}>Protein: {recipe.totalNutrients.PROCNT.quantity.toFixed(2)}g</Text>
-              <Text style={styles.facts}>Fiber: {recipe.totalNutrients.FIBTG.quantity.toFixed(2)}g</Text>
-              <Text style={styles.facts}>Cholesterol: {recipe.totalNutrients.CHOLE.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Sodium: {recipe.totalNutrients.NA.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Calcium: {recipe.totalNutrients.CA.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Magnesium: {recipe.totalNutrients.MG.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Potassium: {recipe.totalNutrients.K.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Iron: {recipe.totalNutrients.FE.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Zinc: {recipe.totalNutrients.ZN.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Vitamin A: {recipe.totalNutrients.VITA_RAE.quantity.toFixed(2)}µg</Text>
-              <Text style={styles.facts}>Vitamin C: {recipe.totalNutrients.VITC.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Vitamin E: {recipe.totalNutrients.TOCPHA.quantity.toFixed(2)}mg</Text>
-              <Text style={styles.facts}>Vitamin K: {recipe.totalNutrients.VITK1.quantity.toFixed(2)}µg</Text>
+              <View style={styles.nutritionContainer}>
+                <View style={styles.nutritionCategory}>
+                  <Text style={styles.categoryTitle}>General</Text>
+                  <Text style={styles.facts}>Calories: {recipe.calories.toFixed(2)}</Text>
+                  <Text style={styles.facts}>Yield: {recipe.yield}</Text>
+                </View>
+                <View style={styles.nutritionCategory}>
+                  <Text style={styles.categoryTitle}>Macronutrients</Text>
+                  <Text style={styles.facts}>Fat: {recipe.totalNutrients.FAT.quantity.toFixed(2)}g</Text>
+                  <Text style={styles.facts}>Carbs: {recipe.totalNutrients.CHOCDF.quantity.toFixed(2)}g</Text>
+                  <Text style={styles.facts}>Protein: {recipe.totalNutrients.PROCNT.quantity.toFixed(2)}g</Text>
+                  <Text style={styles.facts}>Fiber: {recipe.totalNutrients.FIBTG.quantity.toFixed(2)}g</Text>
+                </View>
+                <View style={styles.nutritionCategory}>
+                  <Text style={styles.categoryTitle}>Micronutrients</Text>
+                  <Text style={styles.facts}>Cholesterol: {recipe.totalNutrients.CHOLE.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Sodium: {recipe.totalNutrients.NA.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Calcium: {recipe.totalNutrients.CA.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Magnesium: {recipe.totalNutrients.MG.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Potassium: {recipe.totalNutrients.K.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Iron: {recipe.totalNutrients.FE.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Zinc: {recipe.totalNutrients.ZN.quantity.toFixed(2)}mg</Text>
+                </View>
+                <View style={styles.nutritionCategory}>
+                  <Text style={styles.categoryTitle}>Vitamins</Text>
+                  <Text style={styles.facts}>Vitamin A: {recipe.totalNutrients.VITA_RAE.quantity.toFixed(2)}µg</Text>
+                  <Text style={styles.facts}>Vitamin C: {recipe.totalNutrients.VITC.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Vitamin E: {recipe.totalNutrients.TOCPHA.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Vitamin K: {recipe.totalNutrients.VITK1.quantity.toFixed(2)}µg</Text>
+                </View>
+              </View>
               <Button title="Close" onPress={() => setModalVisible(false)} />
             </View>
           </Modal>
@@ -94,39 +109,47 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: '#333',
   },
   source: {
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 10,
+    color: '#555',
   },
   url: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 15,
     color: '#007BFF',
     textDecorationLine: 'underline',
   },
   yield: {
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 10,
+    color: '#555',
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 10,
+    color: '#333',
   },
   ingredient: {
     fontSize: 16,
     marginBottom: 5,
+    color: '#555',
+  },
+  factsContainer: {
+    marginBottom: 20,
   },
   facts: {
     fontSize: 16,
     marginBottom: 5,
+    color: '#555',
   },
   buttonContainer: {
     marginTop: 20,
   },
   modalView: {
-    margin: 20,
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     padding: 20,
@@ -145,5 +168,25 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: '#333333', 
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  nutritionContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  nutritionCategory: {
+    width: '48%',
+    marginBottom: 20,
+  },
+  categoryTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
   },
 });
