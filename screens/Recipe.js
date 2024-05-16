@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, Linking, Modal, Button } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, Linking, Modal } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default function Recipe({ route }) {
+export default function Recipe({ navigation, route }) {
   const { recipe } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -11,32 +12,35 @@ export default function Recipe({ route }) {
 
   return (
     <ScrollView style={styles.container}>
-      <View>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Icon name="arrow-back" size={30} color="#333" />
+        </TouchableOpacity>
         <Text style={styles.title}>{recipe.label}</Text>
-        <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-        <View style={styles.infoContainer}>
-          <Text style={styles.source}>Source: {recipe.source}</Text>
-
-          <TouchableOpacity onPress={handleUrlPress}>
-            <Text style={styles.url}>Instructions/ More Information</Text>
+      </View>
+      <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
+      <View style={styles.infoContainer}>
+        <Text style={styles.source}>Source: {recipe.source}</Text>
+        <TouchableOpacity onPress={handleUrlPress}>
+          <Text style={styles.url}>Instructions/ More Information</Text>
+        </TouchableOpacity>
+        <Text style={styles.yield}>Yield: {recipe.yield}</Text>
+        <Text style={styles.sectionTitle}>Ingredients:</Text>
+        {recipe.ingredients.map((ingredient, index) => (
+          <Text key={index} style={styles.ingredient}>{ingredient.text}</Text>
+        ))}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.customButton}>
+            <Text style={styles.buttonText}>View Nutrition Facts</Text>
           </TouchableOpacity>
-
-          <Text style={styles.yield}>Yield: {recipe.yield}</Text>
-          <Text style={styles.sectionTitle}>Ingredients:</Text>
-          {recipe.ingredients.map((ingredient, index) => (
-            <Text key={index} style={styles.ingredient}>{ingredient.text}</Text>
-          ))}
-
-          <View style={styles.buttonContainer}>
-            <Button title="View Nutrition Facts" onPress={() => setModalVisible(true)} />
-          </View>
-          
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
-          >
+        </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalTitle}>Nutrition Facts:</Text>
               <View style={styles.nutritionContainer}>
@@ -70,10 +74,12 @@ export default function Recipe({ route }) {
                   <Text style={styles.facts}>Vitamin K: {recipe.totalNutrients.VITK1.quantity.toFixed(2)}µg</Text>
                 </View>
               </View>
-              <Button title="Close" onPress={() => setModalVisible(false)} />
+              <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
             </View>
-          </Modal>
-        </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
@@ -82,8 +88,16 @@ export default function Recipe({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#FAF3E0',
     padding: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  backButton: {
+    marginRight: 10,
   },
   recipeImage: {
     width: '100%',
@@ -96,58 +110,70 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
     color: '#333',
+    fontFamily: 'Arial',
   },
   source: {
     fontSize: 16,
-    marginBottom: 10,
     color: '#555',
+    fontFamily: 'Arial',
   },
   url: {
     fontSize: 16,
-    marginBottom: 15,
     color: '#007BFF',
     textDecorationLine: 'underline',
+    fontFamily: 'Arial',
+    marginBottom: 15,
   },
   yield: {
     fontSize: 16,
-    marginBottom: 10,
     color: '#555',
+    fontFamily: 'Arial',
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
     color: '#333',
+    fontFamily: 'Arial',
+    marginBottom: 10,
   },
   ingredient: {
     fontSize: 16,
-    marginBottom: 5,
     color: '#555',
-  },
-  factsContainer: {
-    marginBottom: 20,
-  },
-  facts: {
-    fontSize: 16,
+    fontFamily: 'Arial',
     marginBottom: 5,
-    color: '#555',
   },
   buttonContainer: {
     marginTop: 20,
+  },
+  customButton: {
+    backgroundColor: '#FFEFBF',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
+  },
+  buttonText: {
+    color: '#000',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'Arial',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   modalView: {
     backgroundColor: '#FFFFFF',
@@ -155,10 +181,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -166,13 +189,9 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#333333',
+    fontFamily: 'Arial',
     marginBottom: 20,
-    color: '#333333', 
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   nutritionContainer: {
     flexDirection: 'row',
@@ -186,7 +205,24 @@ const styles = StyleSheet.create({
   categoryTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
     color: '#333',
+    fontFamily: 'Arial',
+    marginBottom: 10,
+  },
+  facts: {
+    fontSize: 16,
+    color: '#555',
+    fontFamily: 'Arial',
+    marginBottom: 5,
+  },
+  closeButton: {
+    backgroundColor: '#FFEFBF',
+    padding: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
 });

@@ -49,3 +49,44 @@ app.get('/recipes', async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is listening to port ${PORT}`);
 });
+{/*
+import express from 'express';
+import axios from 'axios';
+import cors from 'cors';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+    origin: 'http://localhost:8081'
+}));
+
+app.use(express.json());
+
+app.post('/recommend', async (req, res) => {
+    try {
+        const { risk_category, dietary_preference } = req.body;
+
+        // Send a POST request to Flask backend to get recipe recommendations
+        const response = await axios.post('http://localhost:5000/predict', {
+            risk_category,
+            dietary_preference
+        });
+
+        const recommendations = response.data.recommendations;
+
+        // Send the recommendations to the client
+        res.json(recommendations);
+    } catch (error) {
+        console.error('Error getting recommendations:', error);
+        res.status(500).json({ error: 'Failed to get recommendations' });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Server is listening to port ${PORT}`);
+});
+*/}

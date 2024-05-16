@@ -516,7 +516,7 @@ function Home({ navigation, route }) {
   }
   const fetchRecommendedRecipes = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:8081/predict', {
+      const response = await axios.post('http://127.0.0.1:5000/predict', {
         risk_category: selectedRisk,
         dietary_preference: selectedDiet,
       });
@@ -529,6 +529,7 @@ function Home({ navigation, route }) {
       console.error('Error fetching recommended recipes:', error);
     }
   };
+  
   
   const handleRecommendRecipes = () => {
     navigation.navigate("Recommended Recipes", { recipes: recommendedRecipes });

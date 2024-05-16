@@ -1,135 +1,98 @@
-import {  View, 
-  ImageBackground,
-   Text, 
-   StyleSheet,
-   TextInput, 
-   TouchableOpacity} 
-   from 'react-native';
-   import React, { useState, useEffect } from 'react';
-   import { auth } from '../firebase'
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function Login({navigation}) {
-  const defaultemail = "abcd"; 
-  const defaultpassword ="123";
+export default function AllergyInput({ navigation, route }) {
+  const { selectedDiet } = route.params;
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [allergies, setAllergies] = useState('');
 
-  const handleLogin = () => {
-    if(email.trim() === defaultemail && password.trim() === defaultpassword)
-    navigation.navigate('Home Screen');
-  }
-   
-  const handleSignIn = () => {
-    auth 
-     .signInWithEmailAndPassword(email, password)
-     .then(userCredentials => {
-       const user = userCredentials.user;
-       //console.log(user.email);
-       navigation.navigate('Home');
-     })
-     .catch(error => alert(error.message))
-
-    }
+  const handleContinue = () => {
+    console.log(allergies);
+    console.log(selectedDiet);
+    console.log("Allergies");
+    navigation.navigate('Risk Page', { allergies: allergies.split(','), selectedDiet: selectedDiet });
+  };
 
   return (
-    <ImageBackground
-      source={require('../assets/backgroundPic.png')}
-      style={styles.container}
-      resizeMode="cover">
-      
-      <Text style = {styles.title}>Cooktrition Facts</Text>
-      <Text>Cook Smart, Eat Right, Anytime, Anywhere!</Text>
-
-      <Text style = {styles.loginText}>Log in</Text>
-      
-      <TextInput 
-        placeholder = 'Email Address'
-        style = {styles.textInputs}
-        value={email}
-        onChangeText={(val) => setEmail(val)}
-        />
-        
-      <TextInput 
-        placeholder = 'Password'
-        style = {styles.textInputs}
-        value={password}
-        onChangeText={(val) => setPassword(val)}
-
-        />
-
-         <TouchableOpacity 
-           style = {styles.btn}
-           onPress={handleSignIn}
-           >
-         <Text style = {styles.btnTitle}>Log in</Text>
-
-       
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.skip}
+        onPress={() => navigation.navigate('Risk Page', { allergies: null, selectedDiet: selectedDiet })}>
+        <Text style={styles.skipWord}>Skip  </Text>
+        <Ionicons name="arrow-forward" size={25} color="black" />
       </TouchableOpacity>
-
-     <Text>or</Text>
-     
-       <View style = {styles.registration}>
-       <Text>Don’t have an account?</Text>
-       <Text 
-         style = {styles.register}
-         onPress={() => navigation.navigate('Registration Page')}
-         >
-         Register Now</Text>
-       </View>
-    </ImageBackground>
+      <Text style={styles.title}>Enter Your Allergies</Text>
+      <TextInput
+        style={styles.input}
+        placeholder='Enter allergies separated by commas'
+        value={allergies}
+        onChangeText={setAllergies}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleContinue}>
+        <Text style={styles.buttonText}>Continue</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFEFBF',
-    width: '100%',
-    height: '100%',
-  },
- 
- btn: {
-    backgroundColor : 'black',
-    marginTop: 40,
-    marginBottom : 30,
-    width:330,
-    height: 55,
-    borderRadius: 15,
-  },
-  btnTitle:{
-    color: 'white',
-    textAlign : 'center',
-    alignItems : 'center',
-    marginTop: 15,
-
-
-  },
-  textInputs: {
-    borderWidth:1,
-    width: 330,
-    padding: 7,
-    marginTop: 30,
-    height: 50,
-    borderRadius: 10,
-    paddingLeft: 20,
+    backgroundColor: '#F5F5F5',
+    padding: 20,
   },
   title: {
-    fontSize: 25,
-    fontStyle : 'bold',
-    marginBottom: 5,
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 20,
+    fontFamily: 'Arial',
   },
-  loginText : {
-    fontSize: 30,
-    marginTop: 35,
+  input: {
+    width: '100%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#aaa',
+    paddingHorizontal: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
   },
-  registration : {
-    flexDirection : 'row',
-    marginTop: 15,
+  button: {
+    backgroundColor: '#FFEFBF',
+    padding: 12,
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
-  register : {
-    marginLeft: 10,
-    fontStyle: 'bold',
+  buttonText: {
+    color: '#333',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'Arial',
+  },
+  skip: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  skipWord: {
+    fontSize: 18,
+    fontFamily: 'Arial',
+    color: '#333',
   },
 });
+

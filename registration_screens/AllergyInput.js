@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: 'white',
     padding: 20,
   },
   title: {
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#aaa',
+    borderColor: '#DDD',
     paddingHorizontal: 10,
     borderRadius: 5,
     marginBottom: 20,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#FFEFBF',
     padding: 12,
     borderRadius: 8,
     width: '100%',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   buttonText: {
-    color: '#fff',
+    color: '#333',
     fontSize: 18,
     fontWeight: 'bold',
     fontFamily: 'Arial',
@@ -92,5 +92,7 @@ const styles = StyleSheet.create({
   skipWord: {
     fontSize: 18,
     fontFamily: 'Arial',
+    color: '#555',
   },
 });
+
