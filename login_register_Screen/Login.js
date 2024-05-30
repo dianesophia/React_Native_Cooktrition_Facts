@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   },
  
  btn: {
-    backgroundColor : 'white',
+    backgroundColor : 'black',
     marginTop: 40,
     marginBottom : 30,
     width:330,

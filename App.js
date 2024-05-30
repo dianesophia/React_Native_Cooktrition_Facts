@@ -20,6 +20,8 @@ import DisplayRecipes from './screens/DisplayRecipes';
 import AllergyInput from './registration_screens/AllergyInput';
 import RecommendedRecipes from './screens/RecommendedRecipes';
 
+import Try from './screens/Try';
+
 import userInformation from './userInformation';
 import * as Google from 'expo-auth-session/providers/google';
 import * as WebBrowser from 'expo-web-browser';
@@ -90,7 +92,7 @@ function App() {
         <Stack.Screen name="Allegies Input" component={AllergyInput} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Recommended Recipes" component={RecommendedRecipes} />
-
+        <Stack.Screen name="Try" component={Try} />
       </Stack.Navigator>
     </NavigationContainer>
   );

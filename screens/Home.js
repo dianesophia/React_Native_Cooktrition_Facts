@@ -500,10 +500,25 @@ function Home({ navigation, route }) {
   const { selectedDiet, allergies, selectedRisk } = route.params || {};
   const [recommendedRecipes, setRecommendedRecipes] = useState([]);
 
-  useEffect(() => {
-    // Fetch recommended recipes when the component mounts
-    fetchRecommendedRecipes();
-  }, []);
+  let diet, risk;
+
+  switch(selectedDiet){
+    case "I eat everything" : diet = 4; break;
+    case "Pescatarian" : diet = 3; break;
+    case "Vegetarian" : diet = 2; break;
+    case "Vegan" : diet = 1; break;
+  }
+
+  switch(selectedRisk){
+    case "Diabete" : risk = 1; break;
+    case "Cholesterol": risk = 2; break;
+    case "Hypertension" :risk = 3; break;
+    case "Osteoarthritis" : risk = 4; break;
+    case "Kidney Disease" : risk = 5; break;
+    case "Liver Disease" : risk = 6; break;
+    case "Heart Disease" : risk = 7; break;
+
+  }
 
   const handleGoToSearch = () => {
     navigation.navigate("Search Recipe", { allergies: allergies });
@@ -511,29 +526,25 @@ function Home({ navigation, route }) {
     console.log("Home");
   }
 
+  const handleGoInputIngriedients = () => {
+    navigation.navigate("Input Ingredients", { allergies: allergies });
+    console.log(allergies);
+  }
+
   const handleLogOut = () =>{
     navigation.navigate("Login Page")
   }
-  const fetchRecommendedRecipes = async () => {
-    try {
-      const response = await axios.post('http://127.0.0.1:5000/predict', {
-        risk_category: selectedRisk,
-        dietary_preference: selectedDiet,
-      });
-      if (response.data && response.data.recommendations) {
-        setRecommendedRecipes(response.data.recommendations);
-      } else {
-        console.log('No recommendations found');
-      }
-    } catch (error) {
-      console.error('Error fetching recommended recipes:', error);
-    }
-  };
+
   
   
   const handleRecommendRecipes = () => {
-    navigation.navigate("Recommended Recipes", { recipes: recommendedRecipes });
+    navigation.navigate("Recommended Recipes", { 
+    risk : risk,
+    diet: diet,
+    allergies: allergies,
+    });
   };
+  
 
   return (
     <View style={styles.container}>
@@ -564,7 +575,7 @@ function Home({ navigation, route }) {
             <Text style={styles.ingredientSubText}>We've got your back. List your ingredients.</Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.inputButton} onPress={() => navigation.navigate("Input Ingredients")}>
+        <TouchableOpacity style={styles.inputButton} onPress={handleGoInputIngriedients}>
           <Text style={styles.inputIngredientsButtonText}>Input Ingredients</Text>
         </TouchableOpacity>
 
@@ -737,7 +748,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',   
     borderRadius: 100,
     padding: width * 0.04,
-    marginTop: 5,
     elevation: 3,
     height: 10,
   },

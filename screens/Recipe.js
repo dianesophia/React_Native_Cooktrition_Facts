@@ -5,11 +5,20 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 export default function Recipe({ navigation, route }) {
   const { recipe } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
+ // Check if recipe is defined before accessing its properties
+ const title = recipe ? recipe.title : '';
+ const calories = recipe ? recipe.calories : '';
+ const ingredients = recipe ? recipe.ingredients : [];
+
+ // Format calories if it's defined
+ const formattedCalories = calories ? calories.toFixed(2) : '';
+
 
   const handleUrlPress = () => {
     Linking.openURL(recipe.url);
   };
 
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
@@ -46,33 +55,34 @@ export default function Recipe({ navigation, route }) {
               <View style={styles.nutritionContainer}>
                 <View style={styles.nutritionCategory}>
                   <Text style={styles.categoryTitle}>General</Text>
-                  <Text style={styles.facts}>Calories: {recipe.calories.toFixed(2)}</Text>
+                  <Text style={styles.facts}>Calories: {recipe.calories ? recipe.calories.toFixed(2) : ''}</Text>
                   <Text style={styles.facts}>Yield: {recipe.yield}</Text>
                 </View>
-                <View style={styles.nutritionCategory}>
-                  <Text style={styles.categoryTitle}>Macronutrients</Text>
-                  <Text style={styles.facts}>Fat: {recipe.totalNutrients.FAT.quantity.toFixed(2)}g</Text>
-                  <Text style={styles.facts}>Carbs: {recipe.totalNutrients.CHOCDF.quantity.toFixed(2)}g</Text>
-                  <Text style={styles.facts}>Protein: {recipe.totalNutrients.PROCNT.quantity.toFixed(2)}g</Text>
-                  <Text style={styles.facts}>Fiber: {recipe.totalNutrients.FIBTG.quantity.toFixed(2)}g</Text>
+                    <View style={styles.nutritionCategory}>
+                    <Text style={styles.facts}>Fat: {recipe.totalNutrients && recipe.totalNutrients.FAT ? recipe.totalNutrients.FAT.quantity.toFixed(2) : 'N/A'}g</Text>
+                    <Text style={styles.facts}>Carbs: {recipe.totalNutrients && recipe.totalNutrients.CHOCDF ? recipe.totalNutrients.CHOCDF.quantity.toFixed(2) : 'N/A'}g</Text>
+                    <Text style={styles.facts}>Protein: {recipe.totalNutrients && recipe.totalNutrients.PROCNT ? recipe.totalNutrients.PROCNT.quantity.toFixed(2) : 'N/A'}g</Text>
+                    <Text style={styles.facts}>Fiber: {recipe.totalNutrients && recipe.totalNutrients.FIBTG ? recipe.totalNutrients.FIBTG.quantity.toFixed(2) : 'N/A'}g</Text>
+
                 </View>
                 <View style={styles.nutritionCategory}>
                   <Text style={styles.categoryTitle}>Micronutrients</Text>
-                  <Text style={styles.facts}>Cholesterol: {recipe.totalNutrients.CHOLE.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Sodium: {recipe.totalNutrients.NA.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Calcium: {recipe.totalNutrients.CA.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Magnesium: {recipe.totalNutrients.MG.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Potassium: {recipe.totalNutrients.K.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Iron: {recipe.totalNutrients.FE.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Zinc: {recipe.totalNutrients.ZN.quantity.toFixed(2)}mg</Text>
+                  <Text style={styles.facts}>Cholesterol: {recipe.totalNutrients && recipe.totalNutrients.CHOLE ? recipe.totalNutrients.CHOLE.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Sodium: {recipe.totalNutrients && recipe.totalNutrients.NA ? recipe.totalNutrients.NA.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Calcium: {recipe.totalNutrients && recipe.totalNutrients.CA ? recipe.totalNutrients.CA.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Magnesium: {recipe.totalNutrients && recipe.totalNutrients.MG ? recipe.totalNutrients.MG.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Potassium: {recipe.totalNutrients && recipe.totalNutrients.K ? recipe.totalNutrients.K.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Iron: {recipe.totalNutrients && recipe.totalNutrients.FE ? recipe.totalNutrients.FE.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Zinc: {recipe.totalNutrients && recipe.totalNutrients.ZN ? recipe.totalNutrients.ZN.quantity.toFixed(2) : 'N/A'}mg</Text>
                 </View>
                 <View style={styles.nutritionCategory}>
                   <Text style={styles.categoryTitle}>Vitamins</Text>
-                  <Text style={styles.facts}>Vitamin A: {recipe.totalNutrients.VITA_RAE.quantity.toFixed(2)}µg</Text>
-                  <Text style={styles.facts}>Vitamin C: {recipe.totalNutrients.VITC.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Vitamin E: {recipe.totalNutrients.TOCPHA.quantity.toFixed(2)}mg</Text>
-                  <Text style={styles.facts}>Vitamin K: {recipe.totalNutrients.VITK1.quantity.toFixed(2)}µg</Text>
+                  <Text style={styles.facts}>Vitamin A: {recipe.totalNutrients && recipe.totalNutrients.VITA_RAE ? recipe.totalNutrients.VITA_RAE.quantity.toFixed(2) : 'N/A'}µg</Text>
+                  <Text style={styles.facts}>Vitamin C: {recipe.totalNutrients && recipe.totalNutrients.VITC ? recipe.totalNutrients.VITC.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Vitamin E: {recipe.totalNutrients && recipe.totalNutrients.TOCPHA ? recipe.totalNutrients.TOCPHA.quantity.toFixed(2) : 'N/A'}mg</Text>
+                  <Text style={styles.facts}>Vitamin K: {recipe.totalNutrients && recipe.totalNutrients.VITK1 ? recipe.totalNutrients.VITK1.quantity.toFixed(2) : 'N/A'}µg</Text>
                 </View>
+
               </View>
               <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
                 <Text style={styles.buttonText}>Close</Text>

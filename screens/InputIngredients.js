@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default function InputIngredients({ navigation }) {
   const [inputs, setInputs] = useState([]);
+  const { allergies } = route.params || {};
 
   const handleAddInput = () => {
     setInputs([...inputs, '']);
@@ -11,7 +12,7 @@ export default function InputIngredients({ navigation }) {
 
   const handleSearch = () => {
     const ingredientsQuery = inputs.join(',');
-    navigation.navigate('Display Recipes', { ingredientsQuery });
+    navigation.navigate('Display Recipes', { ingredientsQuery, allergies: allergies });
   };
 
   return (

@@ -1,32 +1,36 @@
+import os
 import json
 import numpy as np
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import StratifiedKFold
-from sklearn.decomposition import TruncatedSVD
-from imblearn.over_sampling import RandomOverSampler  
+import pickle
 import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Get the API keys from environment variables
+APP_ID = os.getenv('APP_ID')
+APP_KEY = os.getenv('APP_KEY')
+
+if not APP_ID or not APP_KEY:
+    raise ValueError("Missing APP_ID or APP_KEY environment variables")
 
 app = Flask(__name__)
-CORS(app, resources={r"/predict": {"origins": "http://localhost:8081"}})
+CORS(app)
 
+# Load the mode, scaler, and svd
+with open('model.pkl', 'rb') as file:
+    model = pickle.load(file)
 
-# Load the new dataset from the provided link
-url = "https://raw.githubusercontent.com/dianesophia/Cooktrition_Facts-Dataset/main/Dataset.json"
-response = requests.get(url)
+with open('scaler.pkl', 'rb') as file:
+    scaler = pickle.load(file)
 
-try:
-    data = response.json()
-except json.decoder.JSONDecodeError as e:
-    print("JSONDecodeError:", e)
-    print("Failed to parse JSON. Please check the data format or URL.")
-    exit()
+with open('svd.pkl', 'rb') as file:
+    svd = pickle.load(file)
 
-# Extract features and labels for each risk category
+# Define risk categories dictionary
 risk_categories = {
     'Diabetes': 1,
     'Cholesterol': 2,
@@ -37,110 +41,195 @@ risk_categories = {
     'Heart Disease': 7
 }
 
-X = []
-y = []
-
-for category, label in risk_categories.items():
-    X_category = []
-    for recipe in data:
-        if recipe['Risk Category'] == category:
-            X_category.append([recipe['Calories per serving'],
-                                recipe['Saturated Fat (g) per serving'],
-                                recipe['Fiber (g) per serving'],
-                                recipe['Trans Fat (g) per serving'],
-                                recipe['Cholesterol (mg) per serving'],
-                                recipe['Potassium (mg) per serving'],
-                                recipe['Calcium (mg) per serving'],
-                                recipe['Phosphorus (mg) per serving'],
-                                recipe['Iron (mg) per serving'],
-                                recipe['Vitamin D (IU) per serving'],
-                                recipe['Folate (mcg) per serving']])
-            y.append(label)
-    X.extend(X_category)
-
-X = np.array(X)
-y = np.array(y)
-
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Apply data preprocessing
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
-
-# Apply matrix factorization using Truncated SVD
-svd = TruncatedSVD(n_components=10)
-X_train_svd = svd.fit_transform(X_train_scaled)
-X_test_svd = svd.transform(X_test_scaled)
-
-# Apply oversampling to handle class imbalance
-oversampler = RandomOverSampler(random_state=42)
-X_train_resampled, y_train_resampled = oversampler.fit_resample(X_train_svd, y_train)
-
-# Define parameter grid for hyperparameter tuning
-param_grid = {
-    'n_estimators': [100, 200, 300],
-    'max_depth': [10, 20, 30],
-    'min_samples_split': [5, 10, 15]
-}
-
-# Define the cross-validation strategy
-cv_strategy = StratifiedKFold(n_splits=5)
-
-# Perform grid search with cross-validation
-grid_search = GridSearchCV(RandomForestClassifier(random_state=42), param_grid, cv=cv_strategy, n_jobs=-1)
-grid_search.fit(X_train_resampled, y_train_resampled)
-
-# Evaluate the best model
-best_model = grid_search.best_estimator_
-y_pred = best_model.predict(X_test_svd)
-accuracy = accuracy_score(y_test, y_pred)
-print("Model Accuracy:", accuracy)
-print("Best Parameters:", grid_search.best_params_)
-print("Classification Report:")
-print(classification_report(y_test, y_pred, zero_division=0))
-
+@app.route('/')
+def index():
+    return "Welcome to the Cooktrition API!"
+"""
 @app.route('/predict', methods=['POST'])
 def predict():
+    data = request.get_json()
+
     try:
-        # Get data from request
-        data = request.get_json()
+        risk_category = int(data['risk_category'])
+        dietary_preference = data['dietary_preference']
 
-        # Extract user's risk category and dietary preference
-        user_category = data.get('risk_category')
-        user_preference = data.get('dietary_preference')
-
-        # Use the trained model to recommend a recipe
+        # Prepare dummy input features as example, modify this part according to your needs
         new_recipe_features = np.array([[220, 1.5, 5, 0, 10, 400, 300, 200, 2, 400, 50]])
         new_recipe_features_scaled = scaler.transform(new_recipe_features)
         new_recipe_features_svd = svd.transform(new_recipe_features_scaled)
-        recommendations = []
 
-        risk_category_name = next(key for key, value in risk_categories.items() if value == user_category)
+        # Make prediction
+        prediction = model.predict(new_recipe_features_svd)
+        predicted_category = list(risk_categories.keys())[list(risk_categories.values()).index(risk_category)]
 
-        # Make recommendations based on user's inputs
-        app_id = "e5d24714"
-        app_key = "e6e405f1dfc8c0a4ecfdfa24dc5d91b3"
-        url = f"https://api.edamam.com/search?q={risk_category_name}+{user_preference}&app_id={app_id}&app_key={app_key}"
-        response = requests.get(url)
+        # Fetch recipes from external API based on predicted category and dietary preference
+        api_url = f"https://api.edamam.com/search?q={risk_category}+{dietary_preference}&app_id={APP_ID}&app_key={APP_KEY}"
+        print(f"Requesting API: {api_url}")
+        response = requests.get(api_url)
+        print(f"API Response status code: {response.status_code}")
+        if response.status_code != 200:
+            print(f"Error: Received status code {response.status_code} from Edamam API")
+            print("Response content:", response.content)
+            raise Exception("Error fetching data from external API")
+
         recipes = response.json().get('hits', [])
-        for i, recipe in enumerate(recipes[:15], 1):
-            recommendations.append({"recipe_name": recipe['recipe']['label']})
 
-        # Construct and return response
-        response = {
-            "message": "Recommendations generated successfully",
-            "recommendations": recommendations
-        }
-        return jsonify(response)
+        # Format the recommendations
+        recommendations = [{
+            "recipe_name": recipe['recipe']['label'],
+            "image": recipe['recipe']['image'],
+            "dietary_preference": dietary_preference,
+            "risk_category": predicted_category
+        } for recipe in recipes]
+
+        return jsonify({"predictions": recommendations})
 
     except Exception as e:
-        # Log the exception
-        print(f"Error occurred: {e}")
-        # Return an error response
-        return jsonify({"error": "Internal Server Error"}), 500
+        print("Error:", str(e))
+        return jsonify({"error": str(e)})
+"""
+""""
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+
+    try:
+        risk_category = int(data['risk_category'])
+        dietary_preference = data['dietary_preference']
+
+        # Fetch recipes from external API based on predicted category and dietary preference
+        api_url = f"https://api.edamam.com/search?q={risk_category}+{dietary_preference}&app_id={APP_ID}&app_key={APP_KEY}"
+        print(f"Requesting API: {api_url}")
+        response = requests.get(api_url)
+        print(f"API Response status code: {response.status_code}")
+        if response.status_code != 200:
+            print(f"Error: Received status code {response.status_code} from Edamam API")
+            print("Response content:", response.content)
+            raise Exception("Error fetching data from external API")
+
+        recipes = response.json().get('hits', [])
+
+        # Format the recommendations
+        recommendations = []
+        for recipe in recipes:
+            recipe_data = recipe['recipe']
+            recipe_name = recipe_data.get('label', 'Unknown Recipe')
+            recipe_image = recipe_data.get('image', '')
+            recipe_ingredients = recipe_data.get('ingredientLines', [])
+            recommendations.append({
+                "recipe_name": recipe_name,
+                "image": recipe_image,
+                "ingredients": recipe_ingredients,
+                "dietary_preference": dietary_preference,
+                "risk_category": risk_category
+            })
+
+        return jsonify({"predictions": recommendations})
+
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)})
+
+"""
+"""
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+
+    try:
+        risk_category = int(data['risk_category'])
+        dietary_preference = data['dietary_preference']
+
+        # Fetch recipes from external API based on predicted category and dietary preference
+        api_url = f"https://api.edamam.com/search?q={risk_category}+{dietary_preference}&app_id={APP_ID}&app_key={APP_KEY}"
+        print(f"Requesting API: {api_url}")
+        response = requests.get(api_url)
+        print(f"API Response status code: {response.status_code}")
+        if response.status_code != 200:
+            print(f"Error: Received status code {response.status_code} from Edamam API")
+            print("Response content:", response.content)
+            raise Exception("Error fetching data from external API")
+
+        recipes = response.json().get('hits', [])
+
+        # Format the recommendations
+        recommendations = []
+        for recipe in recipes:
+            recipe_data = recipe['recipe']
+            recipe_label = recipe_data.get('label', 'Unknown Recipe')
+            recipe_image = recipe_data.get('image', '')
+           # recipe_yield = recipe_yield.get('yield')
+            #recipe_source = recipe_source.get('source')
+            recipe_ingredients = recipe_data.get('ingredients', [])
+            recommendations.append({
+                "recipe_name": recipe_label,
+                "image": recipe_image,
+                "ingredients": recipe_ingredients,
+                #"yield" : recipe_yield,
+               # "recipe_source" : recipe_source,
+                "dietary_preference": dietary_preference,
+                "risk_category": risk_category
+            })
+
+        return jsonify({"predictions": recommendations})
+
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)})
+
+"""
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.get_json()
+
+    try:
+        risk_category = int(data['risk_category'])
+        dietary_preference = data['dietary_preference']
+
+        # Fetch recipes from external API based on predicted category and dietary preference
+        api_url = f"https://api.edamam.com/search?q={risk_category}+{dietary_preference}&app_id={APP_ID}&app_key={APP_KEY}"
+        print(f"Requesting API: {api_url}")
+        response = requests.get(api_url)
+        print(f"API Response status code: {response.status_code}")
+        if response.status_code != 200:
+            print(f"Error: Received status code {response.status_code} from Edamam API")
+            print("Response content:", response.content)
+            raise Exception("Error fetching data from external API")
+
+        recipes = response.json().get('hits', [])
+
+        # Format the recommendations
+        recommendations = []
+        for recipe in recipes:
+            recipe_data = recipe['recipe']
+            recipe_label = recipe_data.get('label', 'Unknown Recipe')
+            recipe_image = recipe_data.get('image', '')
+            recipe_source = recipe_data.get('source', 'Unknown Source')
+            recipe_ingredients = recipe_data.get('ingredients', [])
+            recipe_calories = recipe_data.get('calories', 'N/A')
+            recipe_yield = recipe_data.get('yield', 'N/A')
+            recipe_url = recipe_data.get('url', 'N/A')
+            recipe_nutrients = recipe_data.get('totalNutrients', {})
+            recommendations.append({
+                "recipe_name": recipe_label,
+                "image": recipe_image,
+                "recipe_source": recipe_source,
+                "ingredients": recipe_ingredients,
+                "calories": recipe_calories,
+                "yield": recipe_yield,
+                "url" : recipe_url,
+                "totalNutrients": recipe_nutrients,
+                "dietary_preference": dietary_preference,
+                "risk_category": risk_category
+            })
+
+        return jsonify({"predictions": recommendations})
+
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": str(e)})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
