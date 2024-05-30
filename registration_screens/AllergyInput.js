@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-nativ
 import { Ionicons } from '@expo/vector-icons';
 
 export default function AllergyInput({ navigation, route }) {
-  const { selectedDiet } = route.params;
+  const { selectedDiet, firstName } = route.params;
 
   const [allergies, setAllergies] = useState('');
 
@@ -11,7 +11,8 @@ export default function AllergyInput({ navigation, route }) {
     console.log(allergies);
     console.log(selectedDiet);
     console.log("Allergies");
-    navigation.navigate('Risk Page', { allergies: allergies.split(','), selectedDiet: selectedDiet });
+    console.log(firstName);
+    navigation.navigate('Risk Page', { allergies: allergies.split(','), selectedDiet: selectedDiet, firstName: firstName });
   };
 
   return (

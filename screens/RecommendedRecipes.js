@@ -144,7 +144,7 @@ export default function RecommendedRecipes({ navigation, route }) {
   const [query, setQuery] = useState('');
   const { allergies } = route.params || {};
   const { risk, diet } = route.params || {};
-  let risk1 = 1;
+  //let risk1 = 1;
   console.log(risk);
   console.log(diet)
 
@@ -160,7 +160,7 @@ export default function RecommendedRecipes({ navigation, route }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          risk_category: risk1,
+          risk_category: risk,
           dietary_preference: diet,
         }),
       });

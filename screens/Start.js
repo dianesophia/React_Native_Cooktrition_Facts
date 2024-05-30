@@ -12,7 +12,7 @@ export default function Start({ navigation, route  }) {
     return null;
   }
 
-  const {selectedDiet, allergies, selectedRisk} = route.params;
+  const {selectedDiet, allergies, selectedRisk, firstName} = route.params;
 
   const handleContinue = () => {
     console.log(selectedDiet);
@@ -20,7 +20,7 @@ export default function Start({ navigation, route  }) {
     console.log(selectedRisk);
     console.log("start Page");
    
-    navigation.navigate('Home', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies });
+    navigation.navigate('Home', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies, firstName: firstName });
 
   }
 

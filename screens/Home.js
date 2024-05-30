@@ -497,9 +497,9 @@ import axios from 'axios';
 const { width, height } = Dimensions.get('window');
 
 function Home({ navigation, route }) {
-  const { selectedDiet, allergies, selectedRisk } = route.params || {};
+  const { selectedDiet, allergies, selectedRisk, firstName } = route.params || {};
   const [recommendedRecipes, setRecommendedRecipes] = useState([]);
-
+  console.log(firstName);
   let diet, risk;
 
   switch(selectedDiet){
@@ -551,7 +551,7 @@ function Home({ navigation, route }) {
       <View style={styles.topContainer}>
         <View style={styles.row}>
           <View style={styles.userInfo}>
-            <Text style={styles.userInfoText}>Hello, User firstname</Text>
+            <Text style={styles.userInfoText}>Hello, {firstName}</Text>
             <Text style={styles.userInfoSubText}>What do you want to cook today?</Text>
           </View>
           <Image

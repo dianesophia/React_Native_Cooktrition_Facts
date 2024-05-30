@@ -6,10 +6,12 @@ import { Card } from 'react-native-paper';
 import { ListAccordion } from 'react-native-paper';
 
 
-export default function DietPreferences({ navigation}) {
+export default function DietPreferences({ navigation, route}) {
   const [fontsLoaded] = useFonts({
     WorkSans_400Regular,
   });
+
+  const { firstName } = route.params || {};
 
   const [diet, setDiet] = useState([
     { dietTitle: 'I eat everything', dietDefinition: 'No specific dietary preferences' },
@@ -19,7 +21,7 @@ export default function DietPreferences({ navigation}) {
   ]);
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate('Allegies Input', {selectedDiet: item.dietTitle})}>
+    <TouchableOpacity onPress={() => navigation.navigate('Allegies Input', {selectedDiet: item.dietTitle, firstName: firstName })}>
       <Card style={styles.card}>
         <Card.Content>
           <Text style={styles.cardTitle}>{item.dietTitle}</Text>

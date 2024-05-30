@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+{/*import React, { useState } from 'react';
 import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
@@ -9,7 +9,7 @@ export default function Risk({ navigation, route }) {
     WorkSans_400Regular,
   });
 
-  const {selectedDiet, allergies} = route.params;
+  const {selectedDiet, allergies, firstName} = route.params;
   const [selectedRisk, setSelectedRisk] = useState([]);
 
     
@@ -35,7 +35,7 @@ export default function Risk({ navigation, route }) {
     console.log(selectedDiet);
     console.log(allergies); 
     console.log(selectedRisk);
-    navigation.navigate('Start Page', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies});
+    navigation.navigate('Start Page', { selectedRisk: selectedRisk, selectedDiet: selectedDiet, allergies: allergies, firstName: firstName});
   };
 
   const handleSkip = () => {
@@ -173,6 +173,182 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginTop: 20,
 
+  },
+  continueText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#F1C013',
+  },
+});
+*/}
+
+
+import React, { useState } from 'react';
+import { SafeAreaView, Text, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useFonts, WorkSans_400Regular } from '@expo-google-fonts/work-sans';
+
+export default function Risk({ navigation, route }) {
+  const [fontsLoaded] = useFonts({
+    WorkSans_400Regular,
+  });
+
+  const { selectedDiet, allergies } = route.params;
+  const [selectedRisk, setSelectedRisk] = useState('');
+
+  const toggleRisk = (risk) => {
+    setSelectedRisk(risk === selectedRisk ? '' : risk);
+  };
+
+  const isRiskSelected = (risk) => {
+    return risk === selectedRisk;
+  };
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  const handleContinue = () => {
+    console.log(selectedDiet);
+    console.log(allergies);
+    console.log(selectedRisk);
+    navigation.navigate('Start Page', { selectedRisk, selectedDiet, allergies });
+  };
+
+  const handleSkip = () => {
+    console.log(selectedDiet);
+    console.log(allergies);
+    console.log(selectedRisk);
+    navigation.navigate('Start Page', { selectedRisk, selectedDiet, allergies });
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.skip} onPress={handleSkip}>
+        <Text style={styles.skipWord}>Skip</Text>
+        <Ionicons name="arrow-forward" size={25} color="black" />
+      </TouchableOpacity>
+
+      <Text style={styles.title}>Are you at risk of any of the following?</Text>
+
+      <View style={styles.cardContainer}>
+        <TouchableOpacity
+          style={[styles.card, isRiskSelected('Diabetes') && styles.selectedCard]}
+          onPress={() => toggleRisk('Diabetes')}
+        >
+          <Text style={styles.cardText}>Diabetes</Text>
+          <Image style={styles.icon} source={require('../assets/risk1.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.card, isRiskSelected('Hypertension') && styles.selectedCard]}
+          onPress={() => toggleRisk('Hypertension')}
+        >
+          <Text style={styles.cardText}>Hypertension</Text>
+          <Image style={styles.icon} source={require('../assets/risk2.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.card, isRiskSelected('Osteoarthritis') && styles.selectedCard]}
+          onPress={() => toggleRisk('Osteoarthritis')}
+        >
+          <Text style={styles.cardText}>Osteoarthritis</Text>
+          <Image style={styles.icon} source={require('../assets/risk3.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.card, isRiskSelected('Kidney Disease') && styles.selectedCard]}
+          onPress={() => toggleRisk('Kidney Disease')}
+        >
+          <Text style={styles.cardText}>Kidney Disease</Text>
+          <Image style={styles.icon} source={require('../assets/risk4.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.card, isRiskSelected('Liver Disease') && styles.selectedCard]}
+          onPress={() => toggleRisk('Liver Disease')}
+        >
+          <Text style={styles.cardText}>Liver Disease</Text>
+          <Image style={styles.icon} source={require('../assets/risk5.png')} />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.card, isRiskSelected('Heart Disease') && styles.selectedCard]}
+          onPress={() => toggleRisk('Heart Disease')}
+        >
+          <Text style={styles.cardText}>Heart Disease</Text>
+          <Image style={styles.icon} source={require('../assets/risk6.png')} />
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.continueBtn}>
+        <TouchableOpacity onPress={handleContinue}>
+          <Text style={styles.continueText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    padding: 30,
+  },
+  skip: {
+    flexDirection: 'row',
+    marginTop: 35,
+    marginLeft: 'auto',
+  },
+  skipWord: {
+    fontSize: 18,
+  },
+  title: {
+    color: '#F1C013',
+    fontSize: 25,
+    textAlign: 'center',
+    marginTop: 40,
+    fontFamily: 'WorkSans_400Regular',
+    marginBottom: 20,
+  },
+  cardContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  card: {
+    width: 285,
+    height: 50,
+    marginBottom: 10,
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    backgroundColor: '#F8F8F8',
+  },
+  cardText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  icon: {
+    width: 30,
+    height: 30,
+  },
+  selectedCard: {
+    backgroundColor: '#FFEFBF',
+  },
+  continueBtn: {
+    backgroundColor: '#FFFFFF',
+    width: 125,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    elevation: 5,
+    marginTop: 20,
   },
   continueText: {
     fontSize: 18,

@@ -27,7 +27,7 @@ export default function Register({ navigation, route }) {
   }
 
   if (registered) {
-    navigation.navigate("Diet Preferences");
+    navigation.navigate("Diet Preferences", {firstName: firstName});
     return (
       <UserInformation 
   firstName={firstName} 
